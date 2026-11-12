@@ -1,7 +1,12 @@
-# AppName
+# E2
 
+<<<<<<< HEAD
 AppName is a web app that helps Indian cyber-fraud victims get ready to report.
 The victim describes what happened by typing, recording a voice note and/or uploading payment screenshots. A Python AI agent sends all of it to Gemini, which returns a fraud category, an urgency level, the key details (UPI ID, UTR, amount, bank) and a complaint draft in English and Hindi.
+=======
+E2 is a web app that helps Indian cyber-fraud victims get ready to report.
+The victim describes what happened by typing, recording a voice note and/or uploading payment screenshots. Gemini AI turns this into a fraud category, an urgency level, the key details (UPI ID, UTR, amount, bank) and a complaint draft in English and Hindi.
+>>>>>>> 9e72296679d6a14bc35e2905b8d3a8f96297558c
 The result page shows what to do first (for example, "Call 1930 now"), along with helplines and the legal sections that may apply. **The app never files anything. It only prepares the user.**
 
 > ⚠️ **Demo only.** This is a course-project MVP. Use **fake data only**: fake names, fake UPI IDs, fake UTRs and fake screenshots. Never enter real personal or banking details.
