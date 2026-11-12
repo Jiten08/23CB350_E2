@@ -1,0 +1,12 @@
+{
+  "_comment": [
+    "PURPOSE: lists the server's packages and scripts. JSON cannot hold comments, so the notes live in this array.",
+    "HOW: In server/, run `npm init -y`, which replaces this file. Then set \"name\": \"server\" and add \"type\": \"module\" (ES modules, so `import` works).",
+    "PACKAGES (npm install): express, mongoose, multer, dotenv, cors, @google/genai.",
+    "IMPORTANT: use @google/genai. Do NOT install @google/generative-ai (the old, deprecated SDK). Tutorials that use it are outdated.",
+    "DEV PACKAGE (npm install -D): nodemon. It restarts the server when you save a file.",
+    "SCRIPTS: \"dev\": \"nodemon server.js\" and \"start\": \"node server.js\".",
+    "NODE VERSION: Node 20 or newer. Optionally add \"engines\": { \"node\": \">=20\" }.",
+    "TALKS TO: server.js (the entry file). The settings come from .env (copy .env.example)."
+  ]
+}

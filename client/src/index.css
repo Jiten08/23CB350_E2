@@ -1,0 +1,39 @@
+/*
+ * =============================================================================
+ * index.css
+ * =============================================================================
+ *
+ * PURPOSE:
+ *   The only stylesheet for the whole app. It uses plain CSS, with no
+ *   framework.
+ *
+ * WHAT TO BUILD:
+ *   Sections in this order, each with a comment header:
+ *     - Variables at the top (:root): colours (including a strong red for
+ *       "critical"), spacing and border radius
+ *     - Base styles: body, headings, links, buttons, textarea, select
+ *     - Top bar (App.jsx): app name, plus the red "Call 1930" link
+ *     - Report page: the form, the recorder buttons, the image preview grid
+ *     - Case page: urgency badge colours (critical, high, medium, low),
+ *       cards for each section, tabs for the draft, the disclaimer
+ *     - Print styles: @media print { ... }. Hide the top bar and buttons so
+ *       only the complaint draft prints (for the Print button on CasePage).
+ *     - Mobile: @media (max-width: 600px) { ... }
+ *
+ * TALKS TO:
+ *   - main.jsx (imports this file once)
+ *   - Every .jsx file. Class names here must match their className values.
+ *
+ * STEPS:
+ *   1. Delete Vite's default CSS.
+ *   2. Add the variables and base styles.
+ *   3. Style the top bar.
+ *   4. Style the report page (owned by task 1, built by task 2).
+ *   5. Style the case page, the badges and the tabs.
+ *   6. Add the print and mobile media queries last.
+ *
+ * CONCEPTS TO LEARN:
+ *   - CSS custom properties (--color-danger, var(--color-danger))
+ *   - Flexbox (and a little CSS Grid for the image previews)
+ *   - Media queries: @media print and @media (max-width: ...)
+ */

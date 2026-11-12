@@ -1,0 +1,27 @@
+# =============================================================================
+# .gitignore
+# =============================================================================
+# PURPOSE: Tells Git which files must NEVER be committed to the repository.
+#
+# WHAT TO BUILD: Under the TODOs below, add one pattern per line, with no "#".
+# Lines that start with "#" are comments, and Git ignores them.
+#
+# TALKS TO: Git only. It doesn't affect how the app runs.
+#
+# STEPS:
+#   1. Ignore installed packages:   node_modules/
+#      (anyone can recreate them with `npm install`)
+#   2. Ignore secrets:              .env
+#      (server/.env holds the Gemini API key and the MongoDB password.
+#       DO commit server/.env.example, which has blank values.)
+#   3. Ignore user uploads:         server/uploads/*
+#      then keep the empty folder:  !server/uploads/.gitkeep
+#      (voice notes and screenshots are private data)
+#   4. Ignore the Vite build output: client/dist/
+#   5. Optional extras: *.log, .DS_Store, Thumbs.db, .vscode/
+#
+# CONCEPTS TO LEARN:
+#   - .gitignore pattern syntax (folder/, *.ext, !exception)
+#   - Why secrets must never be pushed to GitHub
+#   - `git status`, to check that a file really is ignored
+# =============================================================================

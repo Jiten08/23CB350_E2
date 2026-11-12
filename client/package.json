@@ -1,0 +1,13 @@
+{
+  "_comment": [
+    "PURPOSE: lists the client's packages and scripts. JSON cannot hold comments, so the notes live in this array.",
+    "HOW: Don't write this file by hand. In client/, run `npm create vite@latest . -- --template react` (JavaScript, not TypeScript). Vite then replaces this file with a real one.",
+    "NAME: set \"name\" to \"client\". Keep \"type\": \"module\" (ES modules).",
+    "PACKAGES (dependencies): react, react-dom (both added by Vite), react-router-dom (add with `npm install react-router-dom`).",
+    "DEV PACKAGES (devDependencies): vite, @vitejs/plugin-react (both added by Vite).",
+    "DO NOT ADD: axios (we use fetch) or any CSS framework (we use plain CSS in src/index.css).",
+    "SCRIPTS: \"dev\": \"vite\" starts the dev server on http://localhost:5173. \"build\": \"vite build\". \"preview\": \"vite preview\".",
+    "SECURITY: the Gemini API key never goes in the client. The browser only talks to our server through /api.",
+    "TALKS TO: vite.config.js (the dev server settings), src/main.jsx (the app's entry file)."
+  ]
+}
