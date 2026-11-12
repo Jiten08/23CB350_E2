@@ -23,7 +23,7 @@
  *   - ReportPage.jsx, the parent that receives the audio through onAudio
  *   - The server receives the audio as the "audio" form field (see api.js).
  *     Chrome records "audio/webm". Check that Gemini accepts that format
- *     (gemini.js).
+ *     (agent/gemini_agent.py).
  *
  * STEPS:
  *   1. Render the buttons with no logic yet.

@@ -1,0 +1,29 @@
+# =============================================================================
+# requirements.txt
+# =============================================================================
+# PURPOSE: Lists the Python packages the agent needs. pip installs them all
+# with one command.
+#
+# WHAT TO BUILD: Under the TODOs below, add one package name per line, without
+# "#". Lines that start with "#" are comments, and pip ignores them.
+#
+# TALKS TO: pip, which reads this file. Install the packages with:
+#   pip install -r requirements.txt
+# (activate the virtual environment first; see README)
+#
+# STEPS:
+#   1. fastapi          the small web framework that receives requests from
+#                       server.js
+#   2. uvicorn          the program that runs the FastAPI app
+#   3. google-genai     the OFFICIAL Gemini SDK for Python
+#                       (import it as: from google import genai)
+#                       ⚠️ NOT "google-generativeai". That's the old,
+#                       deprecated SDK, and tutorials using it are outdated.
+#   4. python-dotenv    reads agent/.env into os.environ
+#   5. (pydantic is installed automatically with fastapi, so don't add it)
+#
+# CONCEPTS TO LEARN:
+#   - Virtual environments (python -m venv .venv)
+#   - pip and requirements.txt
+#   - Pinning versions (e.g. fastapi==0.115.0), optional for a demo
+# =============================================================================

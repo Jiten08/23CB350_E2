@@ -27,10 +27,11 @@
  *        and a basic check was used instead.
  *   Also show a "Loading…" state and an error state (e.g. case not found).
  *
- * CASE SHAPE (the same field names are used in caseModel.js and gemini.js):
+ * CASE SHAPE (the same field names are used in server/caseModel.js and
+ * agent/gemini_agent.py):
  *   {
  *     text, transcript, language,
- *     category,                // a code from data.js
+ *     category,                // a code from agent/data.py
  *     urgency,                 // "critical" | "high" | "medium" | "low"
  *     details: { suspectName, suspectPhone, suspectUpiId, bank, utr, amount, paymentApp, dateTime },
  *     missingFields: [],       // e.g. ["utr", "bank"]

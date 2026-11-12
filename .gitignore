@@ -12,13 +12,19 @@
 #   1. Ignore installed packages:   node_modules/
 #      (anyone can recreate them with `npm install`)
 #   2. Ignore secrets:              .env
-#      (server/.env holds the Gemini API key and the MongoDB password.
-#       DO commit server/.env.example, which has blank values.)
+#      (server/.env holds the MongoDB password, and agent/.env holds the
+#       Gemini API key. DO commit both .env.example files, which have
+#       blank values.)
 #   3. Ignore user uploads:         server/uploads/*
 #      then keep the empty folder:  !server/uploads/.gitkeep
 #      (voice notes and screenshots are private data)
 #   4. Ignore the Vite build output: client/dist/
-#   5. Optional extras: *.log, .DS_Store, Thumbs.db, .vscode/
+#   5. Ignore Python files that can be recreated:
+#        .venv/          (the agent's virtual environment)
+#        __pycache__/    (Python's compiled cache)
+#      (The ".env" rule in step 2 already covers agent/.env, which holds
+#       the Gemini key.)
+#   6. Optional extras: *.log, .DS_Store, Thumbs.db, .vscode/
 #
 # CONCEPTS TO LEARN:
 #   - .gitignore pattern syntax (folder/, *.ext, !exception)

@@ -13,10 +13,11 @@
  *     automatically
  *   - export default mongoose.model("Case", caseSchema)
  *
- * CASE SHAPE (the same field names are used in gemini.js and CasePage.jsx):
+ * CASE SHAPE (the same field names are used in agent/gemini_agent.py and
+ * CasePage.jsx). Most fields come straight from the Python agent's reply.
  *   {
  *     text, transcript, language,
- *     category,                // a code from data.js
+ *     category,                // a code from agent/data.py
  *     urgency,                 // "critical" | "high" | "medium" | "low"
  *     details: { suspectName, suspectPhone, suspectUpiId, bank, utr, amount, paymentApp, dateTime },
  *     missingFields: [],       // e.g. ["utr", "bank"]
@@ -34,7 +35,7 @@
  *     details → a nested object. amount → Number; everything else → String.
  *     missingFields, actions → [String]
  *     draft → { en: String, hi: String }
- *     legalSections, helplines → arrays of small objects (copied from data.js)
+ *     legalSections, helplines → arrays of small objects (sent by the agent, from agent/data.py)
  *     usedFallback → Boolean, default false
  *
  * TALKS TO:

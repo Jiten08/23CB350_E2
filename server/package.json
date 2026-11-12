@@ -2,8 +2,8 @@
   "_comment": [
     "PURPOSE: lists the server's packages and scripts. JSON cannot hold comments, so the notes live in this array.",
     "HOW: In server/, run `npm init -y`, which replaces this file. Then set \"name\": \"server\" and add \"type\": \"module\" (ES modules, so `import` works).",
-    "PACKAGES (npm install): express, mongoose, multer, dotenv, cors, @google/genai.",
-    "IMPORTANT: use @google/genai. Do NOT install @google/generative-ai (the old, deprecated SDK). Tutorials that use it are outdated.",
+    "PACKAGES (npm install): express, mongoose, multer, dotenv, cors.",
+    "NO AI PACKAGE HERE: Gemini is called from the Python agent (agent/requirements.txt). The server reaches the agent with Node 20's built-in fetch.",
     "DEV PACKAGE (npm install -D): nodemon. It restarts the server when you save a file.",
     "SCRIPTS: \"dev\": \"nodemon server.js\" and \"start\": \"node server.js\".",
     "NODE VERSION: Node 20 or newer. Optionally add \"engines\": { \"node\": \">=20\" }.",
