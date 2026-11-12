@@ -1,6 +1,6 @@
-# AppName
+# E2
 
-AppName is a web app that helps Indian cyber-fraud victims get ready to report.
+E2 is a web app that helps Indian cyber-fraud victims get ready to report.
 The victim describes what happened by typing, recording a voice note and/or uploading payment screenshots. Gemini AI turns this into a fraud category, an urgency level, the key details (UPI ID, UTR, amount, bank) and a complaint draft in English and Hindi.
 The result page shows what to do first (for example, "Call 1930 now"), along with helplines and the legal sections that may apply. **The app never files anything. It only prepares the user.**
 
