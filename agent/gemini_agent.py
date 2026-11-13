@@ -91,3 +91,152 @@
 #   - Structured output with a Pydantic response_schema and response.parsed
 #   - Reading binary files in Python (open(path, "rb")) and mime types
 # =============================================================================
+
+import os
+import mimetypes
+from typing import Optional
+
+from pydantic import BaseModel
+from google import genai
+from google.genai import types
+
+from data import CATEGORIES
+
+
+# ---------------------------------------------------------------------------
+# Gemini client and model (created lazily so import doesn't fail without a key)
+# ---------------------------------------------------------------------------
+_client = None
+MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+
+
+def _get_client():             #helper function
+    global _client
+    if _client is None:
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key:
+            raise ValueError("GEMINI_API_KEY is not set in agent/.env")
+        _client = genai.Client(api_key=api_key)
+    return _client
+
+
+# ---------------------------------------------------------------------------
+# Pydantic models for structured output
+# ---------------------------------------------------------------------------
+
+class Details(BaseModel):
+    suspectName: Optional[str] = None
+    suspectPhone: Optional[str] = None
+    suspectUpiId: Optional[str] = None
+    bank: Optional[str] = None
+    utr: Optional[str] = None
+    amount: Optional[float] = None
+    paymentApp: Optional[str] = None
+    dateTime: Optional[str] = None
+
+
+class Draft(BaseModel):
+    en: str
+    hi: str
+
+
+class Analysis(BaseModel):
+    transcript: str
+    category: str
+    urgency: str
+    details: Details
+    missingFields: list[str]
+    actions: list[str]
+    draft: Draft
+
+
+# ---------------------------------------------------------------------------
+# Prompt
+# ---------------------------------------------------------------------------
+CATEGORY_LIST = "\n".join(
+    f"  {c['code']:8s} — {c['label']}" for c in CATEGORIES
+)
+
+PROMPT = f"""\
+You are a cyber-fraud triage assistant for Indian citizens.
+
+Analyse the user's fraud report (text, optional voice note, optional screenshots).
+
+TASKS:
+1. **Transcribe** the voice note if one is included. If there is no voice note,
+   set transcript to an empty string.
+2. **Category** — pick exactly ONE code from this list:
+{CATEGORY_LIST}
+3. **Urgency** — choose one:
+   - critical: money lost in the last 24 hours OR the fraud is still happening
+   - high:     money lost earlier, OR an account/identity is compromised
+   - medium:   threats or harassment with no money lost
+   - low:      suspicious contact only
+4. **Details** — extract every fact you can find. Leave a field as null/empty
+   if it is NOT present, and NEVER guess. List all empty fields in missingFields.
+   Fields: suspectName, suspectPhone, suspectUpiId, bank, utr, amount, paymentApp, dateTime.
+5. **Actions** — write the first steps the victim should take, in order.
+   Example: "Call 1930 (National Cyber Crime Helpline) now".
+6. **Draft** — write a formal complaint letter in both English (en) and Hindi (hi).
+
+SAFETY RULE: Never ask the user for an OTP, PIN, or password.
+
+Respond ONLY with valid JSON matching the schema provided.
+"""
+
+
+# ---------------------------------------------------------------------------
+# Main function
+# ---------------------------------------------------------------------------
+
+def analyze_incident(
+    text: str,
+    language: str = "en",
+    audio_path: str | None = None,
+    image_paths: list[str] | None = None,
+) -> dict:
+    """
+    Send the report to Gemini and return the structured Analysis as a dict.
+    Raises on any API or parsing error so the caller can fall back.
+    """
+    image_paths = image_paths or []
+
+    # Build the multimodal contents list
+    contents: list = []
+
+    # Add user text
+    user_text = f"[Language: {language}]\n\n{text}" if text else f"[Language: {language}]"
+    contents.append(user_text)
+
+    # Add audio file if provided
+    if audio_path and os.path.isfile(audio_path):
+        audio_bytes = open(audio_path, "rb").read()
+        mime_type = mimetypes.guess_type(audio_path)[0] or "audio/webm"
+        contents.append(types.Part.from_bytes(data=audio_bytes, mime_type=mime_type))
+
+    # Add image files
+    for img_path in image_paths:
+        if img_path and os.path.isfile(img_path):
+            img_bytes = open(img_path, "rb").read()
+            mime_type = mimetypes.guess_type(img_path)[0] or "image/png"
+            contents.append(types.Part.from_bytes(data=img_bytes, mime_type=mime_type))
+
+    # Add the system prompt
+    contents.append(PROMPT)
+
+    # Call Gemini with structured output
+    response = _get_client().models.generate_content(
+        model=MODEL,
+        contents=contents,
+        config=types.GenerateContentConfig(
+            response_mime_type="application/json",
+            response_schema=Analysis,
+        ),
+    )
+
+    # Parse the structured response
+    analysis = response.parsed
+    if analysis is None:
+        raise ValueError("Gemini returned an empty or unparseable response.")
+
+    return analysis.model_dump()

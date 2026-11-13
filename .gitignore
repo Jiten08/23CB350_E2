@@ -31,3 +31,6 @@
 #   - Why secrets must never be pushed to GitHub
 #   - `git status`, to check that a file really is ignored
 # =============================================================================
+
+agent/venv/
+agent/.env

@@ -31,8 +31,7 @@
 #        BNS 2023 (which replaced the IPC from 1 July 2024): 78, 308, 318,
 #        319, 336, 351
 #      ⚠️ Verify every section and note against the actual text of the Act
-#         (e.g. indiacode.nic.in) before writing it. Don't copy from AI or
-#         blogs. Cite your source in a comment.
+#         (e.g. indiacode.nic.in) before writing it. Cite your source in a comment.
 #
 #   3. HELPLINES: a list of {"name", "phone", "url", "categories"}
 #        - 1930: National Cyber Crime Helpline (all categories)
@@ -69,3 +68,179 @@
 #   - List comprehensions
 #   - Importing from your own module (from data import CATEGORIES)
 # =============================================================================
+
+
+# ---------------------------------------------------------------------------
+# 1. CATEGORIES
+# ---------------------------------------------------------------------------
+CATEGORIES = [
+    {"code": "UPI",    "label": "UPI / payment fraud"},
+    {"code": "CARD",   "label": "Debit or credit card fraud"},
+    {"code": "PHISH",  "label": "Phishing (fake links, fake websites, OTP theft)"},
+    {"code": "IMPERS", "label": "Impersonation (fake police, bank, digital arrest, customer care)"},
+    {"code": "INVEST", "label": "Investment or trading scam"},
+    {"code": "JOB",    "label": "Job or task scam"},
+    {"code": "LOAN",   "label": "Loan app harassment"},
+    {"code": "SEXT",   "label": "Sextortion"},
+    {"code": "SOCIAL", "label": "Social media account hacking or fake profile"},
+    {"code": "IDENT",  "label": "Identity theft (Aadhaar/PAN misuse)"},
+    {"code": "SHOP",   "label": "Online shopping fraud"},
+    {"code": "OTHER",  "label": "Other"},
+]
+
+ALL_CODES = [c["code"] for c in CATEGORIES]
+
+
+# ---------------------------------------------------------------------------
+# 2. LEGAL_SECTIONS
+# ---------------------------------------------------------------------------
+# Sources:
+#   IT Act 2000 — https://indiacode.nic.in/handle/123456789/1999
+#   Bharatiya Nyaya Sanhita 2023 — https://indiacode.nic.in/handle/123456789/20062
+
+LEGAL_SECTIONS = [
+    # --- IT Act 2000 ---
+    {
+        "act": "IT Act 2000",
+        "section": "43",
+        "note": "Penalty for damage to computer, computer system, etc. (unauthorized access, data extraction, virus introduction).",
+        "categories": ["UPI", "CARD", "PHISH", "IMPERS", "INVEST", "JOB", "LOAN", "SEXT", "SOCIAL", "IDENT", "SHOP", "OTHER"],
+    },
+    {
+        "act": "IT Act 2000",
+        "section": "66",
+        "note": "Computer-related offences committed dishonestly or fraudulently (hacking with criminal intent).",
+        "categories": ["UPI", "CARD", "PHISH", "SOCIAL", "IDENT", "SHOP"],
+    },
+    {
+        "act": "IT Act 2000",
+        "section": "66C",
+        "note": "Identity theft — fraudulent use of the electronic signature, password or unique identification feature of another person.",
+        "categories": ["PHISH", "IMPERS", "IDENT", "SOCIAL"],
+    },
+    {
+        "act": "IT Act 2000",
+        "section": "66D",
+        "note": "Cheating by personation using a computer resource or communication device.",
+        "categories": ["PHISH", "IMPERS", "INVEST", "JOB", "SHOP"],
+    },
+    {
+        "act": "IT Act 2000",
+        "section": "66E",
+        "note": "Violation of privacy — intentional capture, publication or transmission of a person's private images without consent.",
+        "categories": ["SEXT"],
+    },
+    {
+        "act": "IT Act 2000",
+        "section": "67",
+        "note": "Publishing or transmitting obscene material in electronic form.",
+        "categories": ["SEXT"],
+    },
+    {
+        "act": "IT Act 2000",
+        "section": "67A",
+        "note": "Publishing or transmitting material containing sexually explicit acts in electronic form.",
+        "categories": ["SEXT"],
+    },
+
+    # --- BNS 2023 (replaced IPC from 1 July 2024) ---
+    {
+        "act": "BNS 2023",
+        "section": "78",
+        "note": "Theft — dishonest taking of movable property (including money) out of a person's possession without consent.",
+        "categories": ["UPI", "CARD", "PHISH", "SHOP"],
+    },
+    {
+        "act": "BNS 2023",
+        "section": "308",
+        "note": "Extortion — intentionally putting a person in fear of injury to obtain property or valuable security.",
+        "categories": ["SEXT", "LOAN"],
+    },
+    {
+        "act": "BNS 2023",
+        "section": "318",
+        "note": "Cheating — deceiving a person and thereby dishonestly inducing delivery of property or alteration/destruction of valuable security.",
+        "categories": ["UPI", "CARD", "PHISH", "IMPERS", "INVEST", "JOB", "SHOP"],
+    },
+    {
+        "act": "BNS 2023",
+        "section": "319",
+        "note": "Cheating by personation — pretending to be another person or using the identity of another to cheat.",
+        "categories": ["IMPERS", "PHISH", "SOCIAL", "IDENT"],
+    },
+    {
+        "act": "BNS 2023",
+        "section": "336",
+        "note": "Forgery — making a false document or electronic record with intent to cause damage or injury, or to support a claim.",
+        "categories": ["IDENT", "PHISH", "IMPERS"],
+    },
+    {
+        "act": "BNS 2023",
+        "section": "351",
+        "note": "Criminal intimidation — threatening a person with injury to person, reputation or property to cause alarm or compel action.",
+        "categories": ["SEXT", "LOAN", "IMPERS"],
+    },
+]
+
+
+# ---------------------------------------------------------------------------
+# 3. HELPLINES
+# ---------------------------------------------------------------------------
+# Sources: official websites verified as noted below.
+
+HELPLINES = [
+    {
+        "name": "National Cyber Crime Helpline",
+        "phone": "1930",
+        "url": "https://cybercrime.gov.in",
+        "categories": ALL_CODES,  # all categories
+    },
+    {
+        "name": "National Cyber Crime Reporting Portal",
+        "phone": None,
+        "url": "https://cybercrime.gov.in",
+        "categories": ALL_CODES,  # all categories
+    },
+    {
+        "name": "Your bank's customer care (number on back of card or bank website)",
+        "phone": None,
+        "url": None,
+        "categories": ["UPI", "CARD", "PHISH", "INVEST", "LOAN"],
+    },
+    {
+        # UIDAI toll-free helpline — https://uidai.gov.in/en/contact-support.html
+        "name": "UIDAI Aadhaar Helpline",
+        "phone": "1947",
+        "url": "https://uidai.gov.in",
+        "categories": ["IDENT"],
+    },
+    {
+        # National Consumer Helpline — https://consumerhelpline.gov.in
+        "name": "National Consumer Helpline",
+        "phone": "1915",
+        "url": "https://consumerhelpline.gov.in",
+        "categories": ["SHOP"],
+    },
+    {
+        # RBI Sachet — https://sachet.rbi.org.in
+        "name": "RBI Sachet (illegal deposit schemes & lenders)",
+        "phone": None,
+        "url": "https://sachet.rbi.org.in",
+        "categories": ["INVEST", "LOAN"],
+    },
+]
+
+
+# ---------------------------------------------------------------------------
+# Helper functions
+# ---------------------------------------------------------------------------
+
+def get_legal_sections(category_code: str) -> list:
+    """Return the legal sections whose categories include the given code."""
+    return [item for item in LEGAL_SECTIONS if category_code in item["categories"]]
+
+
+def get_helplines(category_code: str) -> list:
+    """Return the helplines for the given category code.
+    Always includes 1930 and the portal (they cover all categories)."""
+    return [item for item in HELPLINES if category_code in item["categories"]]

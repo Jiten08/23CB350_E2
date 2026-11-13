@@ -60,3 +60,66 @@
 #   - try / except in Python
 #   - Running a server with uvicorn
 # =============================================================================
+
+from dotenv import load_dotenv
+load_dotenv()  # read agent/.env before anything else
+
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+from gemini_agent import analyze_incident
+from fallback import triage
+from data import get_legal_sections, get_helplines
+
+
+# ---------------------------------------------------------------------------
+# App
+# ---------------------------------------------------------------------------
+app = FastAPI()
+
+
+# ---------------------------------------------------------------------------
+# Request model
+# ---------------------------------------------------------------------------
+class AnalyzeRequest(BaseModel):
+    text: str = ""
+    language: str = "en"
+    audio_path: str | None = None
+    image_paths: list[str] = []
+
+
+# ---------------------------------------------------------------------------
+# Routes
+# ---------------------------------------------------------------------------
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+
+@app.post("/analyze")
+def analyze(req: AnalyzeRequest):
+    used_fallback = False
+
+    # 1. Try Gemini
+    try:
+        result = analyze_incident(
+            text=req.text,
+            language=req.language,
+            audio_path=req.audio_path,
+            image_paths=req.image_paths,
+        )
+    except Exception as e:
+        # 2. If Gemini fails, use the fallback
+        print(f"Gemini failed, using fallback: {e}")
+        result = triage(req.text)
+        used_fallback = True
+
+    # 3. Add legal sections and helplines from data.py
+    category = result.get("category", "OTHER")
+    result["legalSections"] = get_legal_sections(category)
+    result["helplines"] = get_helplines(category)
+    result["usedFallback"] = used_fallback
+
+    # 4. Return the full CASE SHAPE
+    return result
